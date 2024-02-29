@@ -2,18 +2,23 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
-const dbPath = path.resolve('./10m.txt');
+const dbPath = path.resolve('./hello.txt');
 
 async function parseFile() {
   try {
-    let readInterface = readline.createInterface({
-      input: fs.createReadStream(dbPath),
-    });
+    let readInterface = null;
+
     let i = 0;
     let num = null;
     let min = null;
     let max = null;
     let avg = null;
+    let incr_arr = [];
+    let incr_temp_arr = [];
+
+    readInterface = readline.createInterface({
+      input: fs.createReadStream(dbPath),
+    });
 
     for await (const line of readInterface) {
       num = +line.trim();
@@ -23,26 +28,38 @@ async function parseFile() {
 
         if (min === null) min = num;
         if (max === null) max = num;
-        // arr.push[num];
+
         avg = avg !== null ? (avg * (i - 1) + num) / i : num;
-        // console.log(avg);
+
         if (num < min) {
           min = num;
         } else if (num > max) {
           max = num;
         }
+
+        if (incr_temp_arr.length > 0) {
+          if (num > incr_temp_arr[incr_temp_arr.length - 1]) {
+            incr_temp_arr.push(num);
+            if (incr_temp_arr.length > incr_arr.length)
+              incr_arr = [...incr_temp_arr];
+          } else {
+            incr_temp_arr = [];
+          }
+        } else {
+          incr_temp_arr.push(num);
+        }
       }
     }
-
-    readInterface = readline.createInterface({
-      input: fs.createReadStream(dbPath),
-    });
 
     let bot = null;
     let top = null;
     let delta = null;
     let dif = null;
     let med = null;
+
+    readInterface = readline.createInterface({
+      input: fs.createReadStream(dbPath),
+    });
 
     for await (const line of readInterface) {
       num = +line.trim();
@@ -61,6 +78,7 @@ async function parseFile() {
     }
 
     console.log(min, max, avg, med);
+    console.log(incr_arr);
   } catch (error) {
     console.log(error);
   }
