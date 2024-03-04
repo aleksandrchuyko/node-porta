@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
-const dbPath = path.resolve('./10m.txt');
+const dbPath = path.resolve('./hello.txt');
 
 async function parseFile() {
   try {
@@ -98,6 +98,8 @@ async function parseFile() {
     }
 
     async function evenQuantityMedian() {
+      let m1 = null;
+      let m2 = null;
       readInterface = readline.createInterface({
         input: fs.createReadStream(dbPath),
       });
@@ -109,17 +111,24 @@ async function parseFile() {
           top = Math.abs(max - num);
           dif = Math.abs(top - bot);
           if (delta === null) {
-            med = num;
+            m1 = num;
             delta = dif;
           } else if (dif < delta) {
-            med = num;
+            m2 = m1;
+            m1 = num;
             delta = dif;
           }
         }
       }
+      med = (m1 + m2) * 0.5;
     }
 
-    await oddQuantityMedian();
+    if (i % 2 === 0) {
+      await evenQuantityMedian();
+    } else {
+      await oddQuantityMedian();
+    }
+
     console.log(min, max, avg, med, i);
     console.log(incr_arr);
     console.log(decr_arr);
