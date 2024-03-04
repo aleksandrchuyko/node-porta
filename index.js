@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
 
-const dbPath = path.resolve('./hello.txt');
+const dbPath = path.resolve('./10m.txt');
 
 async function parseFile() {
   try {
@@ -129,9 +129,13 @@ async function parseFile() {
       await oddQuantityMedian();
     }
 
-    console.log(min, max, avg, med, i);
-    console.log(incr_arr);
-    console.log(decr_arr);
+    console.log('Максимальне число в файлі: ', max)
+    console.log('Мінімальне число в файлі: ', min)
+    console.log('Медіана: ', med)
+    console.log('Середнє арифметичне значення: ', avg)
+    console.log('Найбільша послідовність чисел на збільшення: ', incr_arr)
+    console.log('Найбільша послідовність чисел на зменшення: ', decr_arr)
+  
   } catch (error) {
     console.log(error);
   }
