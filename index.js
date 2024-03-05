@@ -10,18 +10,19 @@ async function parseFile() {
 
     let i = 0;
     let num = null;
-    let min = null;
-    let max = null;
-    let avg = null;
-    let incr_arr = [];
+    let min = null; // Змінна для збереження мінімуму
+    let max = null; // Змінна для збереження максимуму
+    let avg = null; // Змінна для збереження середнього арифметичного
+    let incr_arr = []; // Змінна для збереження зростаючої послідовності
     let incr_temp_arr = [];
-    let decr_arr = [];
+    let decr_arr = []; // Змінна для збереження послідовності на зменшення
     let decr_temp_arr = [];
 
     readInterface = readline.createInterface({
       input: fs.createReadStream(dbPath),
     });
 
+    // Перший прохід по файлу
     for await (const line of readInterface) {
       num = +line.trim();
 
@@ -31,14 +32,17 @@ async function parseFile() {
         if (min === null) min = num;
         if (max === null) max = num;
 
+        // Розраховуєм середнє арифметичне
         avg = avg !== null ? (avg * (i - 1) + num) / i : num;
 
+        // Зберігаємо нові максимальне чи мінімальне значення
         if (num < min) {
           min = num;
         } else if (num > max) {
           max = num;
         }
 
+        // Зберігаємо послідовність зростаючих чисел
         if (incr_temp_arr.length > 0) {
           if (num > incr_temp_arr[incr_temp_arr.length - 1]) {
             incr_temp_arr.push(num);
@@ -53,6 +57,7 @@ async function parseFile() {
           incr_temp_arr.push(num);
         }
 
+        // Зберігаємо чисел що зменшуються
         if (decr_temp_arr.length > 0) {
           if (num < decr_temp_arr[decr_temp_arr.length - 1]) {
             decr_temp_arr.push(num);
@@ -73,8 +78,9 @@ async function parseFile() {
     let top = null;
     let delta = null;
     let dif = null;
-    let med = null;
+    let med = null; // Змінна для збереження медіани
 
+    // Функція розрахунку медіани непарної кількості чисел
     async function oddQuantityMedian() {
       readInterface = readline.createInterface({
         input: fs.createReadStream(dbPath),
@@ -97,6 +103,7 @@ async function parseFile() {
       }
     }
 
+    // Функція розрахунку медіани парної кількості чисел
     async function evenQuantityMedian() {
       let m1 = null;
       let m2 = null;
