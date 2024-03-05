@@ -57,7 +57,7 @@ async function parseFile() {
           incr_temp_arr.push(num);
         }
 
-        // Зберігаємо чисел що зменшуються
+        // Зберігаємо послідовність чисел що зменшуються
         if (decr_temp_arr.length > 0) {
           if (num < decr_temp_arr[decr_temp_arr.length - 1]) {
             decr_temp_arr.push(num);
